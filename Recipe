@@ -302,6 +302,9 @@ SSHSERVER = SSHCOMMON sshserver settings be_none logging ssh2kex-server
 # load foreign key files.
 IMPORT   = import sshbcrypt sshblowf marshal
 
+# Extended mouse support (> 223 characters)
+UTF8MOUSE = fromucs slookup sbcsdat sbcs utf8
+
 # Character set library, for use in pterm.
 CHARSET  = sbcsdat slookup sbcs utf8 toucs fromucs xenc mimeenc macenc localenc
 
@@ -331,8 +334,8 @@ KEYGEN   = sshrsag sshdssg sshecdsag
 # keywords [G] for Windows GUI app, [C] for Console app, [X] for
 # X/GTK Unix app, [U] for command-line Unix app.
 
-putty    : [G] GUITERM NONSSH WINSSH W_BE_ALL WINMISC winx11 putty.res LIBS
-puttytel : [G] GUITERM NONSSH W_BE_NOSSH WINMISC puttytel.res nogss LIBS
+putty    : [G] GUITERM NONSSH WINSSH W_BE_ALL WINMISC winx11 putty.res UTF8MOUSE LIBS
+puttytel : [G] GUITERM NONSSH W_BE_NOSSH WINMISC puttytel.res nogss UTF8MOUSE LIBS
 plink    : [C] winplink wincons NONSSH WINSSH W_BE_ALL logging WINMISC
          + winx11 plink.res winnojmp sessprep noterm winnohlp winselcli LIBS
 pscp     : [C] pscp winsftp wincons WINSSH BE_SSH SFTP wildcard WINMISC
@@ -349,7 +352,7 @@ pageant  : [G] winpgnt pageant sshrsa sshpubk sshdes ARITH sshmd5 version
 puttygen : [G] winpgen KEYGEN sshprime sshdes ARITH sshmd5 version
          + sshrand winnoise sshsha winstore MISC winctrls sshrsa sshdss winmisc
          + sshpubk sshaes sshsh256 sshsh512 IMPORT winutils puttygen.res
-         + tree234 notiming winhelp winnojmp CONF LIBS wintime sshecc sshprng
+         + tree234 notiming winhelp winnojmp CONF UTF8MOUSE LIBS wintime sshecc sshprng
          + sshauxcrypt sshhmac winsecur winmiscs
 
 pterm    : [X] GTKTERM uxmisc misc ldisc settings uxpty uxsel BE_NONE uxstore

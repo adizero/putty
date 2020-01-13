@@ -2224,7 +2224,7 @@ gint motion_event(GtkWidget *widget, GdkEventMotion *event, gpointer data)
 {
     GtkFrontend *inst = (GtkFrontend *)data;
     bool shift, ctrl, alt;
-    int x, y, button;
+    int x, y, button, act;
 
     /* Remember the timestamp. */
     inst->input_event_time = event->time;
@@ -2237,19 +2237,25 @@ gint motion_event(GtkWidget *widget, GdkEventMotion *event, gpointer data)
     shift = event->state & GDK_SHIFT_MASK;
     ctrl = event->state & GDK_CONTROL_MASK;
     alt = event->state & inst->meta_mod_mask;
-    if (event->state & GDK_BUTTON1_MASK)
+
+    if (event->state & GDK_BUTTON1_MASK) {
         button = MBT_LEFT;
-    else if (event->state & GDK_BUTTON2_MASK)
+        act = MA_DRAG;
+    } else if (event->state & GDK_BUTTON2_MASK) {
         button = MBT_MIDDLE;
-    else if (event->state & GDK_BUTTON3_MASK)
+        act = MA_DRAG;
+    } else if (event->state & GDK_BUTTON3_MASK) {
         button = MBT_RIGHT;
-    else
-        return false;                  /* don't even know what button! */
+        act = MA_DRAG;
+    } else {
+        button = MBT_NOTHING;          /* no button is pressed */
+        act = MA_MOVE;
+    }
 
     x = (event->x - inst->window_border) / inst->font_width;
     y = (event->y - inst->window_border) / inst->font_height;
 
-    term_mouse(inst->term, button, translate_button(button), MA_DRAG,
+    term_mouse(inst->term, button, translate_button(button), act,
                x, y, shift, ctrl, alt);
 
     return true;
