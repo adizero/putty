@@ -1,6 +1,7 @@
 Major differences:
 
 * Mouse hover support (mode 1003)
+* Cursor style support (changing of cursor shape and blinking via XTerm escape sequences - DECSCUSR)
 
 Compile with mingw.
 
